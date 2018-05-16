@@ -1,0 +1,12 @@
+{
+  "name": "kafka-node",
+  "version": "1.0.0",
+  "description": "Simple node util to play with Nodejs and Kafka",
+  "main": "index.js",
+  "author": "Saidur Rahman <saidur2k@hotmail.com> (http://rudias.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "avsc": "5.2.3",
+    "kafka-node": "2.6.1"
+  }
+}
