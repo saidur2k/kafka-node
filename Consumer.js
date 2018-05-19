@@ -1,10 +1,12 @@
+require('dotenv').config()
+const {KAFKA_URL, KAFKA_PRODUCER_TOPIC} = process.env
 const kafka = require('kafka-node')
 const HighLevelConsumer = kafka.HighLevelConsumer
 const Client = kafka.Client
 
-const client = new Client('localhost:2181')
+const client = new Client(KAFKA_URL)
 const topics = [{
-  topic: 'node-test'
+  topic: KAFKA_PRODUCER_TOPIC
 }]
 
 const type = require('./HoldayDealDescription')
@@ -18,18 +20,18 @@ const options = {
 
 const consumer = new HighLevelConsumer(client, topics, options)
 
-consumer.on('message', function (message) {
+consumer.on('message', (message) => {
   const buf = new Buffer(message.value, 'binary') // Read string into a buffer.
   const decodedMessage = type.fromBuffer(buf.slice(0)) // Skip prefix.
   console.log(decodedMessage)
 })
 
-consumer.on('error', function (err) {
+consumer.on('error', (err) => {
   console.log('error', err)
 })
 
-process.on('SIGINT', function () {
-  consumer.close(true, function () {
+process.on('SIGINT', () => {
+  consumer.close(true, () => {
     process.exit()
   })
 })
